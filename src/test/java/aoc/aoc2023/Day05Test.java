@@ -133,24 +133,6 @@ class Day05Test {
     }
 
     @Test
-    void optimisingRange() {
-        Mappings mappings = new Mappings();
-        mappings.mappingList.add(new Mapping(100, 1, 50));
-        mappings.mappingList.add(new Mapping(150, 25, 50));
-        OptimisedMappingResult result = mappings.optimiseMapping(mappings.mappingList.get(0), mappings.mappingList.get(1));
-        assertEquals(25L, result.optimised);
-    }
-
-//    @Test
-//    void optimisingSeeds() {
-//        OptimisedSeedRangeResult optimisedSeedRangeResult = day05.readSeedRanges(List.of(0L, 10L, 5L, 10L));
-//        List<Range> ranges = optimisedSeedRangeResult.ranges;
-//        assertEquals(0, ranges.get(0).start);
-//        assertEquals(14, ranges.get(0).end);
-//        assertEquals(5, optimisedSeedRangeResult.optimised);
-//    }
-
-    @Test
     void part1() {
         assertEquals("35", day05.part1(lines));
     }

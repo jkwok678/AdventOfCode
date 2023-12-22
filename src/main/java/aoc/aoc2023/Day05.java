@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Day05 implements Day {
 
@@ -20,9 +18,6 @@ public class Day05 implements Day {
 
     Mappings temperatureToHumidityMappings = new Mappings();
     Mappings humidityToLocationMappings = new Mappings();
-
-    ExecutorService executorService = Executors.newFixedThreadPool(8);
-
 
     @Override
     public String part1(List<String> input) {
@@ -43,9 +38,7 @@ public class Day05 implements Day {
                     return String.valueOf(i);
                 }
             }
-
         }
-
         return "ERROR";
     }
 
@@ -66,7 +59,6 @@ public class Day05 implements Day {
         while (endNumber > seedNumber) {
             seedList.add(seedNumber);
             seedNumber++;
-
         }
         return seedList;
     }
@@ -99,7 +91,6 @@ public class Day05 implements Day {
         long soilNumber = soilToFertilizerMappings.getSourceFromDestination(fertilizerNumber);
         return seedToSoilMappings.getSourceFromDestination(soilNumber);
     }
-
 
     public void createAllMappings(List<String> input) {
         Iterator<String> inputIterator = input.iterator();
@@ -139,7 +130,6 @@ public class Day05 implements Day {
             }
         }
     }
-
 
     public String readMappingType(String input) {
         String[] mappingLine = input.split(" ");
@@ -203,41 +193,12 @@ class Mappings {
         return mappingList.size();
     }
 
-    public static OptimisedMappingResult optimiseMapping(Mapping mapping1, Mapping mapping2) {
-        long optimised;
-        if (mapping1.startPointEnd >= mapping2.startPoint) {
-            optimised = mapping1.startPointEnd - mapping2.startPoint;
-            mapping1.startPointEnd = mapping2.startPointEnd;
-            mapping1.destinationPointEnd = mapping2.destinationPointEnd;
-            return new OptimisedMappingResult(List.of(mapping1), optimised);
-        } else if (mapping2.startPointEnd >= mapping1.startPoint) {
-            optimised = mapping1.startPointEnd - mapping2.startPoint;
-            mapping1.startPoint = mapping2.startPoint;
-            mapping1.destinationPoint = mapping2.destinationPoint;
-            return new OptimisedMappingResult(List.of(mapping1), optimised);
-        } else if (mapping1.startPoint <= mapping2.startPoint && mapping1.startPointEnd >= mapping2.startPointEnd) {
-            optimised = mapping2.startPointEnd - mapping2.startPoint;
-            return new OptimisedMappingResult(List.of(mapping1), optimised);
-        } else if (mapping2.startPoint <= mapping1.startPoint && mapping2.startPointEnd >= mapping1.startPointEnd) {
-            optimised = mapping1.startPointEnd - mapping1.startPoint;
-            mapping1.startPoint = mapping2.startPoint;
-            mapping1.startPointEnd = mapping2.startPointEnd;
-            mapping1.destinationPoint = mapping2.destinationPoint;
-            mapping1.destinationPointEnd = mapping2.destinationPointEnd;
-            return new OptimisedMappingResult(List.of(mapping1), optimised);
-        }
-        return new OptimisedMappingResult(List.of(mapping1, mapping2), 0);
-    }
-
 }
 
 class Mapping {
     long startPoint;
-
     long startPointEnd;
-
     long destinationPoint;
-
     long destinationPointEnd;
 
     public Mapping(long destinationPoint, long startPoint, long duration) {
@@ -245,8 +206,6 @@ class Mapping {
         this.destinationPoint = destinationPoint;
         this.startPointEnd = startPoint + duration - 1;
         this.destinationPointEnd = destinationPoint + duration - 1;
-
-
     }
 
     public long getDestinationFromStart(long start) {
@@ -263,17 +222,6 @@ class Mapping {
             return this.startPoint + add;
         }
         return -1;
-    }
-
-}
-
-class OptimisedMappingResult {
-    List<Mapping> mappings;
-    long optimised;
-
-    public OptimisedMappingResult(List<Mapping> mappings, long optimised) {
-        this.mappings = mappings;
-        this.optimised = optimised;
     }
 }
 
